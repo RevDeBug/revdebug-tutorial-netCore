@@ -7,6 +7,7 @@
         <RecorderAddress>crash-reports.revdebug.com</RecorderAddress>
         <RecorderTCPPort>42734</RecorderTCPPort>
         <RevDeBugMetadataPath>/rdb/Metadata</RevDeBugMetadataPath>
+        <ImportGitInfo>true</ImportGitInfo>
     </PropertyGroup>
     <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'">
         <isNetCore>true</isNetCore>
