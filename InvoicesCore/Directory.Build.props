@@ -4,7 +4,7 @@
         <UseRevDeBugOnThisProject>true</UseRevDeBugOnThisProject>
         <RevDeBugStateStorageType>CrashRecorder</RevDeBugStateStorageType>
         <SendToServer>true</SendToServer>
-        <RecorderAddress>crash-reports.revdebug.com</RecorderAddress>
+        <RecorderAddress>[REVDEBUG_SERVER]</RecorderAddress>
         <RecorderTCPPort>42734</RecorderTCPPort>
         <RevDeBugMetadataPath>/rdb/Metadata</RevDeBugMetadataPath>
         <ImportGitInfo>true</ImportGitInfo>
@@ -22,12 +22,4 @@
       BeforeTargets="CopyRevDeBugFilesToOutputDirectory"
       DependsOnTargets="$(_RevDeBugSetupFileFixDependsOn)"/>
 
-  <Target Name="_RevDeBugAlterToolPathEx" AfterTargets="_RevDeBugAlterToolPath">
-
-    <PropertyGroup Condition="'$(RevDeBugDisableNuget)' != 'true'">
-      <CscToolExe>csc.sh</CscToolExe>
-      <CscToolPath>$(RevDeBugCompilerPath)</CscToolPath>
-      <VbcToolPath>$(RevDeBugCompilerPath)</VbcToolPath>
-    </PropertyGroup>
-  </Target>
 </Project>
