@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Invoices.Models.Invoice>
+﻿@model IEnumerable<InvoiceAssembler.Orders>
 
 @{
     ViewBag.Title = "Invoices";
@@ -37,23 +37,23 @@
             {
                         <tr>
                             <td>
-                                @item.InvoiceId
+                                @item.OrderId
                             </td>
                             <td>
-                                @item.Contractor.FirstName
-                                @item.Contractor.LastName
+                                @item.Customer.CompanyName
+                                @item.Customer.City
                             </td>
                             <td>
-                               @item.IssueDate
+                               @item.OrderDate
                             </td>
                             <td>
-                                @item.DueDate
+                                @item.RequiredDate
                             </td>
                             @{
                                 double sum = 0;
-                                foreach (var entry in item.InvoiceEntries)
+                                foreach (var entry in item.OrderDetails)
                                 {
-                                    sum += (entry.Product.UnitPrice + (entry.Product.UnitPrice * entry.Product.Tax / 100)) * entry.Quantity;
+                                    sum += entry.Product.UnitPrice.Value * entry.Quantity;
                                 }
                             }
                             <td>
@@ -61,7 +61,7 @@
                                 @sum
                             </td>
                             <td>
-                                <a href="Invoices/Details/@item.Number">Details</a>
+                                <a href="Invoices/Details/@item.OrderId">Details</a>
                             </td>
                         </tr>
                                 }
