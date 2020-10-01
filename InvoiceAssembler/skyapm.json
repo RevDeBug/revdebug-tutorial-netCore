@@ -1,6 +1,6 @@
 {
   "SkyWalking": {
-    "ServiceName": "InvoicesCore",
+    "ServiceName": "InvoiceAssembler",
     "Namespace": "",
     "HeaderVersions": [
       "sw8"

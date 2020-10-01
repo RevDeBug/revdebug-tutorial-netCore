@@ -1,6 +1,6 @@
 {
   "SkyWalking": {
-    "ServiceName": "InvoicesCore",
+    "ServiceName": "Discounter",
     "Namespace": "",
     "HeaderVersions": [
       "sw8"
