@@ -21,7 +21,7 @@ namespace Discounter
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://localhost:5200/");
+                    webBuilder.UseUrls("http://*:5200/");
                 });
     }
 }

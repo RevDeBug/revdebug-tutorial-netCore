@@ -15,7 +15,7 @@ namespace InvoicesCore
     {
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).UseUrls("http://localhost:5400/").Build().Run();
+            CreateWebHostBuilder(args).UseUrls("http://*:5400/").Build().Run();
         }
 
         #region NoTimeTravel

@@ -26,7 +26,7 @@ namespace InvoiceSender
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://localhost:5300/");
+                    webBuilder.UseUrls("http://*:5300/");
                 });
     }
 }

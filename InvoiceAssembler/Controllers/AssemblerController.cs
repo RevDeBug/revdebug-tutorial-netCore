@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -20,7 +21,11 @@ namespace InvoiceAssembler.Controllers
 
         public AssemblerController(northwindContext invoicesContext, IConfiguration configuration)
         {
-            apiBaseUrl = configuration.GetValue<string>("WebAPIBaseUrl");
+            apiBaseUrl = Environment.GetEnvironmentVariable("JAVA_INVOICE_ADDRESS");
+            if (string.IsNullOrEmpty(apiBaseUrl))
+            {
+                apiBaseUrl = configuration.GetValue<string>("WebAPIBaseUrl");
+            }
             db = invoicesContext;
         }
 

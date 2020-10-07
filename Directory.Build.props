@@ -1,18 +1,18 @@
 <Project>
-  <PropertyGroup Condition="'$(REVDEBUG_recordServerAddress)' == '' and '$(REVDEBUG_RECORD_SERVER_ADDRESS)' == ''">
-    <RevDeBugRecordServerAddress>127.0.0.1</RevDeBugRecordServerAddress>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(REVDEBUG_recordServerAddress)' != ''">
     <RevDeBugRecordServerAddress>$(REVDEBUG_recordServerAddress)</RevDeBugRecordServerAddress>
   </PropertyGroup>
   <PropertyGroup Condition="'$(REVDEBUG_RECORD_SERVER_ADDRESS)' != ''">
     <RevDeBugRecordServerAddress>$(REVDEBUG_RECORD_SERVER_ADDRESS)</RevDeBugRecordServerAddress>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(REVDEBUG_APM_ENDPOINT)' == ''">
-    <RevDeBugApmEndpoint>11800</RevDeBugApmEndpoint>
+  <PropertyGroup Condition="'$(RevDeBugRecordServerAddress)' == '' ">
+    <RevDeBugRecordServerAddress>127.0.0.1</RevDeBugRecordServerAddress>
   </PropertyGroup>
   <PropertyGroup Condition="'$(REVDEBUG_APM_ENDPOINT)' != ''">
-    <RevDeBugApmEndpoint>$(REVDEBUG_APM_ENDPOINT)</RevDeBugApmEndpoint>
+  <RevDeBugApmEndpoint>$(REVDEBUG_APM_ENDPOINT)</RevDeBugApmEndpoint>
+    </PropertyGroup>
+  <PropertyGroup Condition="'$(RevDeBugApmEndpoint)' == ''">
+    <RevDeBugApmEndpoint>11800</RevDeBugApmEndpoint>
   </PropertyGroup>
   
   <PropertyGroup Condition="'$(RevDeBugDisableNuget)' != 'true'">
