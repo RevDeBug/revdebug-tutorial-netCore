@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -11,12 +12,20 @@ namespace Invoices.Controllers
 {
     public class InvoicesController : Controller
     {
-        string apiBaseUrl;
-        string discountApiBaseUrl;
+        string assemblerUrl;
+        string discounterUrl;
         public InvoicesController(IConfiguration configuration)
         {
-            apiBaseUrl = configuration.GetValue<string>("WebAPIBaseUrl");
-            discountApiBaseUrl = configuration.GetValue<string>("DiscountWebAPIBaseUrl");
+            assemblerUrl = Environment.GetEnvironmentVariable("ASSEMBLER_ADDRESS");
+            if (string.IsNullOrEmpty(assemblerUrl))
+            {
+                assemblerUrl = configuration.GetValue<string>("WebAPIBaseUrl");
+            }
+            discounterUrl = Environment.GetEnvironmentVariable("DISCOUNTER_ADDRESS");
+            if (string.IsNullOrEmpty(discounterUrl))
+            {
+                discounterUrl = configuration.GetValue<string>("DiscountWebAPIBaseUrl");
+            }
         }
 
         // GET: Invoices
@@ -24,7 +33,7 @@ namespace Invoices.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                string endpoint = apiBaseUrl + "/Assembler/Get";
+                string endpoint = assemblerUrl + "/Assembler/Get";
 
                 using (var Response = await client.GetAsync(endpoint))
                 {
@@ -40,7 +49,7 @@ namespace Invoices.Controllers
         {
             using (HttpClient client = new HttpClient())
             {
-                string endpoint = apiBaseUrl + "/Assembler/Details?id=" + id;
+                string endpoint = assemblerUrl + "/Assembler/Details?id=" + id;
 
                 using (var Response = await client.GetAsync(endpoint))
                 {
@@ -56,7 +65,7 @@ namespace Invoices.Controllers
             Orders order = null;
             using (HttpClient client = new HttpClient())
             {
-                string endpoint = apiBaseUrl + "/Assembler/Details?id=" + id;
+                string endpoint = assemblerUrl + "/Assembler/Details?id=" + id;
 
                 using (var Response = await client.GetAsync(endpoint))
                 {
@@ -70,7 +79,7 @@ namespace Invoices.Controllers
             string discounts;
             using (HttpClient client = new HttpClient())
             {
-                string endpoint = discountApiBaseUrl + "/Discount/Get?products=" + serialzedProducts;
+                string endpoint = discounterUrl + "/Discount/Get?products=" + serialzedProducts;
                 using (var Response = await client.GetAsync(endpoint))
                 {
                     discounts = await Response.Content.ReadAsStringAsync();
@@ -79,7 +88,7 @@ namespace Invoices.Controllers
 
             using (HttpClient client = new HttpClient())
             {
-                string endpoint = apiBaseUrl + "/Assembler/PrepareInvoiceData?id=" + id + "&discountsString=" + discounts;
+                string endpoint = assemblerUrl + "/Assembler/PrepareInvoiceData?id=" + id + "&discountsString=" + discounts;
 
                 using (var Response = await client.GetAsync(endpoint))
                 {
