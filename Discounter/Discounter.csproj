@@ -10,5 +10,9 @@
     <PackageReference Include="RevDeBugAPM.Agent.AspNetCore" Version="5.7.20" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\InvoiceAssembler\InvoiceAssembler.csproj" />
+  </ItemGroup>
+
 
 </Project>

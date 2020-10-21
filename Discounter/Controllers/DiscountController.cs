@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using InvoiceAssembler.Model;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -21,23 +22,24 @@ namespace Discounter.Controllers
         public string Get(string products)
         {
             var deserializedProducts = JsonConvert.DeserializeObject<short[]>(products);
-            int[] discount = new int[deserializedProducts.Count()];
+            Discounts discounts = new Discounts();
             if (coin)
             {
-                for (int i = 0; i < discount.Length; i++)
+                for (int i = 0; i < deserializedProducts.Length; i++)
                 {
-                    discount[i] = 25;
+                    discounts.Values.Add(new Discounts.Discount(deserializedProducts[i], 25));
                 }
             }
             else
             {
-                for (int i = 0; i < discount.Length; i++)
+                Random random = new Random();
+                for (int i = 0; i < deserializedProducts.Length; i++)
                 {
-                    discount[i] = 125;
+                    discounts.Values.Add(new Discounts.Discount(deserializedProducts[i], random.Next(108, 150)));
                 }
             }
             coin = !coin;
-            return JsonConvert.SerializeObject(discount);
+            return JsonConvert.SerializeObject(discounts);
         }
     }
 }

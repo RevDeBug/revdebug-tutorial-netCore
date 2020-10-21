@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InvoiceAssembler.Model;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -46,22 +47,17 @@ namespace InvoiceAssembler.Controllers
         public async Task<IActionResult> PrepareInvoiceData(int id, string discountsString)
         {
 
-            var discounts = JsonConvert.DeserializeObject<int[]>(discountsString);
+            var discounts = JsonConvert.DeserializeObject<Discounts>(discountsString);
             var order = db.Orders.Include(x => x.Customer).Include(x => x.OrderDetails).ThenInclude(x => x.Product).ThenInclude(x => x.Category).FirstOrDefault(x => x.OrderId == id);
-            if (order.OrderDetails.Count != discounts.Length)
+            if (order.OrderDetails.Count != discounts.Values.Count)
             {
                 return Problem("Discounts count does not match ordered products count");
             }
 
-            var i = 0;
             foreach (var productDetail in order.OrderDetails)
             {
-                productDetail.Discount = discounts[i];
-                i = i + 1;
+                productDetail.Discount = discounts.Values.FirstOrDefault(x => x.ProductId == productDetail.ProductId).Percent;
             }
-
-
-            Program.ProcessDiscounts(discountsString);
 
             using (HttpClient client = new HttpClient())
             {
@@ -69,7 +65,8 @@ namespace InvoiceAssembler.Controllers
                 string json = JsonConvert.SerializeObject(order);
                 var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
                 using var Response = await client.PostAsync(endpoint, httpContent);
-                return StatusCode((int)Response.StatusCode);
+                var statusCode = (int)Response.StatusCode;
+                return StatusCode(statusCode);
             }
         }
     }

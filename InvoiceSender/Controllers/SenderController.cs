@@ -11,16 +11,8 @@ namespace InvoiceSender.Controllers
     [Route("[controller]")]
     public class SenderController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        public SenderController()
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<SenderController> _logger;
-
-        public SenderController(ILogger<SenderController> logger)
-        {
-            _logger = logger;
         }
 
         [HttpGet("Send")]

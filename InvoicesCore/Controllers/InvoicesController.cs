@@ -60,7 +60,7 @@ namespace Invoices.Controllers
             }
         }
 
-        public async Task<ActionResult> Reconsile(string id)
+        public async Task<ActionResult> Reconcile(string id)
         {
             Orders order = null;
             using (HttpClient client = new HttpClient())
@@ -79,7 +79,7 @@ namespace Invoices.Controllers
             string discounts;
             using (HttpClient client = new HttpClient())
             {
-                string endpoint = discounterUrl + "/Discount/Get?products=" + serialzedProducts;
+                string endpoint = discounterUrl + "/Discount/Get?products=" + serialzedProducts + "&&customerId=" + order.CustomerId;
                 using (var Response = await client.GetAsync(endpoint))
                 {
                     discounts = await Response.Content.ReadAsStringAsync();
@@ -96,8 +96,6 @@ namespace Invoices.Controllers
                     order = JsonConvert.DeserializeObject<Orders>(stringResponse);
                 }
             }
-
-            Program.ProcessDiscounts(discounts);
 
             return RedirectToAction("Details", new { id = id });
         }
