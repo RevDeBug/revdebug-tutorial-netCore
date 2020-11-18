@@ -39,18 +39,17 @@ namespace InvoiceAssembler
 
             services.AddControllers();
 
-
             services.AddDbContext<northwindContext>(options => options.UseNpgsql(connstring));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, northwindContext context)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-
+            context.RecreateDatabase();
             app.UseRouting();
 
             app.UseAuthorization();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace InvoiceAssembler
 {
+    #region NoTimeTravel
     public partial class Orders
     {
         public Orders()
@@ -30,4 +31,5 @@ namespace InvoiceAssembler
         public virtual Shippers ShipViaNavigation { get; set; }
         public virtual ICollection<OrderDetails> OrderDetails { get; set; }
     }
+    #endregion
 }

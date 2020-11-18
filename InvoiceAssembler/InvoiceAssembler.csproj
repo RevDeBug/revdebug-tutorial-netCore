@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="northwind.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="northwind.sql">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.8">
@@ -12,8 +22,8 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
-    <PackageReference Include="RevDeBug.BuildTools" Version="5.7.20" />
-    <PackageReference Include="RevDeBugAPM.Agent.AspNetCore" Version="5.7.20" />
+    <PackageReference Include="RevDeBug.BuildTools" Version="5.7.21" />
+    <PackageReference Include="RevDeBugAPM.Agent.AspNetCore" Version="5.7.21" />
   </ItemGroup>
 
 

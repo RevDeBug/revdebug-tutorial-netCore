@@ -6,8 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-    <PackageReference Include="RevDeBug.BuildTools" Version="5.7.20" />
-    <PackageReference Include="RevDeBugAPM.Agent.AspNetCore" Version="5.7.20" />
+    <PackageReference Include="RevDeBug.BuildTools" Version="5.7.21" />
+    <PackageReference Include="RevDeBugAPM.Agent.AspNetCore" Version="5.7.21" />
   </ItemGroup>
 
   <ItemGroup>

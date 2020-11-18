@@ -1,0 +1,15 @@
+FROM openjdk:8-jdk-alpine
+
+WORKDIR /app
+
+COPY ./app .
+
+RUN apk add --update \
+        && apk add supervisor --no-install-recommends --no-install-suggests -y \
+        && rm -rf /var/lib/apt/lists/* \
+        && mkdir -p /var/log/supervisor \
+        && mkdir -p /etc/supervisor/conf.d
+
+# Configuration and script setup
+COPY ./supervisor.conf /etc/supervisor/supervisor.conf
+CMD ["supervisord", "-c", "/etc/supervisor/supervisor.conf"]

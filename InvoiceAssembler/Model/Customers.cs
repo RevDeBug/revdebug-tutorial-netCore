@@ -4,6 +4,7 @@ using Newtonsoft.Json;
 
 namespace InvoiceAssembler
 {
+    #region NoTimeTravel
     public partial class Customers
     {
         public Customers()
@@ -29,4 +30,5 @@ namespace InvoiceAssembler
         [System.Text.Json.Serialization.JsonIgnore]
         public virtual ICollection<Orders> Orders { get; set; }
     }
+    #endregion
 }

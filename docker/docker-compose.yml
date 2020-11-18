@@ -1,0 +1,51 @@
+version: '3.0'
+services:
+  postgres:
+    image: postgres:12.4
+    ports:
+        - "${REVDEBUG_MONITOR_PORT:-5433}:5432"
+    volumes:
+        - /srv/pgsql_invoices:/var/lib/postgresql/data
+    environment:
+            POSTGRES_USER: ${REVDEBUG_POSTGRES_USER:-postgres}
+            POSTGRES_PASSWORD: ${REVDEBUG_POSTGRES_PASSWORD:-masterkey}
+            POSTGRES_DB: ${REVDEBUG_POSTGRES_DATABASE:-Invoices }
+  discounter:
+    build: ./Discounter
+  assembler:
+    build: ./InvoiceAssembler
+    environment:
+            ASPNETCORE_HOSTINGSTARTUPASSEMBLIES: RevDeBugAPM.Agent.AspNetCore
+            JAVA_INVOICE_ADDRESS: http://processor.invoices:8082
+    links:
+        - "processor:processor.invoices"
+        - "postgres:postgres.invoices"
+  sender:
+    build: ./InvoiceSender
+    environment:
+            ASPNETCORE_HOSTINGSTARTUPASSEMBLIES: RevDeBugAPM.Agent.AspNetCore
+  viewer:
+    build: ./InvoiceCore
+    environment:
+            ASPNETCORE_HOSTINGSTARTUPASSEMBLIES: RevDeBugAPM.Agent.AspNetCore
+            ASSEMBLER_ADDRESS: http://assembler.invoices:5100
+            DISCOUNTER_ADDRESS: http://discounter.invoices:5200
+    ports:
+        - 6012:5400
+    links:
+        - "assembler:assembler.invoices"
+        - "discounter:discounter.invoices"
+  processor:
+    build: ./InvoiceJava
+    links:
+        - "sender:sender.invoices"
+        - "postgres:postgres.invoices"
+    ports:
+        - 6013:8082
+    environment:
+            SPRING.DATASOURCE.URL: jdbc:postgresql://postgres:5432/Invoices
+            SPRING.DATASOURCE.USERNAME: postgres
+            SPRING.DATASOURCE.PASSWORD: masterkey
+            InvoicesCoreAddress: http://demo-apps.revdebug.com:6012
+            InvoicesSenderAddress: http://sender.invoices:5300
+            SW_AGENT_COLLECTOR_BACKEND_SERVICES: 127.0.0.1:11800

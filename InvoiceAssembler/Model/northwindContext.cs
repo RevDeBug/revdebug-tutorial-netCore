@@ -1,9 +1,12 @@
 ﻿using System;
+using System.IO;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace InvoiceAssembler
 {
+    #region NoTimeTravel
     public partial class northwindContext : DbContext
     {
         public northwindContext()
@@ -30,13 +33,14 @@ namespace InvoiceAssembler
         public virtual DbSet<Territories> Territories { get; set; }
         public virtual DbSet<UsStates> UsStates { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public void RecreateDatabase()
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseNpgsql("Server=127.0.0.1;Port=5433;user id=postgres;Password=masterkey;Database=northwind");
-            }
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
+            var currentLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            var northWindSql = File.ReadAllText(Path.Combine(currentLocation, "northwind.sql"));
+            Database.ExecuteSqlRaw(northWindSql);
+            SaveChanges();
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -556,4 +560,5 @@ namespace InvoiceAssembler
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
+    #endregion
 }

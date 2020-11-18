@@ -1,0 +1,10 @@
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1
+
+WORKDIR /app
+
+COPY ./app .
+
+# Configuration and script setup
+ENV ASPNETCORE_HOSTINGSTARTUPASSEMBLIES RevDeBugAPM.Agent.AspNetCore
+ENV JAVA_INVOICE_ADDRESS http://demo-apps.revdebug.com:6013
+ENTRYPOINT ["dotnet", "Discounter.dll"]

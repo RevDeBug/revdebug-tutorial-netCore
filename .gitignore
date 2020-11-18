@@ -186,3 +186,4 @@ RevDeBugViewerExt/Properties/VersionInfo.cs
 LicenseServer/bower_components/
 LicenseServer/wwwroot/lib/
 LicenseServer/DefinitelyNotKey/
+output/
