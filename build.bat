@@ -1,4 +1,8 @@
-xcopy docker output\ /E
+xcopy docker output\ /E /Y
+cd ../revdebug-tutorial-spring
+call ./mvnw package -DskipTests
+xcopy target\revdebug-tutorial-spring-0.0.1-SNAPSHOT.jar ..\revdebug-tutorial-netCore\output\InvoiceJava\app\ /Y
+cd ../revdebug-tutorial-netCore
 cd Discounter
 dotnet clean
 dotnet publish -o ../output/Discounter/app
@@ -11,7 +15,3 @@ dotnet publish -o ../output/InvoiceCore/app
 cd ../InvoiceSender
 dotnet clean
 dotnet publish -o ../output/InvoiceSender/app
-cd ../../revdebug-tutorial-spring
-./mvnw package -DskipTests
-xcopy target\revdebug-tutorial-spring-0.0.1-SNAPSHOT.jar ..\revdebug-tutorial-netCore\output\InvoiceJava\app\
-cd ../revdebug-tutorial-netCore
