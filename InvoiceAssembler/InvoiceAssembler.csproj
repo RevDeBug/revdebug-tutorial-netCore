@@ -22,7 +22,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
-    <PackageReference Include="RevDeBug.BuildTools" Version="5.7.21" />
+    <PackageReference Include="RevDeBug.BuildTools" Version="5.7.20" />
     <PackageReference Include="RevDeBugAPM.Agent.AspNetCore" Version="5.7.20" />
   </ItemGroup>
 
