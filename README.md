@@ -14,6 +14,7 @@
     dotnet nuget add source https://nexus.revdebug.com/repository/nuget -n rdb_nexus
     edit revdebug-tutorial-spring/pom.xml set ArecordServerAddress to desired record server address
     download https://dist.revdebug.com/agent/revdebug-agent-5.7.20.tar.gz and unzip it to revdebug-tutorial-netCore/output/InvoiceJava/app/agent
+    if you are updating invoices make sure you removed your postgres db, otherwise it may cause problems
     
 ## build
     Open cmd in revdebug-tutorial-netCore
