@@ -17,6 +17,8 @@ services:
     environment:
             ASPNETCORE_HOSTINGSTARTUPASSEMBLIES: RevDeBugAPM.Agent.AspNetCore
             JAVA_INVOICE_ADDRESS: http://processor.invoices:8082
+            PYTHON_INVOICE_ADDRESS: http://processor.invoices:8083
+            INVOICE_LANGUAGE: ${INVOICE_LANGUAGE:java}
     links:
         - "processor:processor.invoices"
         - "postgres:postgres.invoices"
@@ -49,3 +51,17 @@ services:
             InvoicesCoreAddress: http://demo-apps.revdebug.com:6012
             InvoicesSenderAddress: http://sender.invoices:5300
             SW_AGENT_COLLECTOR_BACKEND_SERVICES: 127.0.0.1:11800
+    python:
+      build: ./InvoicePython
+      links:
+          - "sender:sender.invoices"
+          - "postgres:postgres.invoices"
+      environment:
+              REVDEBUG_APPLICATIONS_HOST: ${REVDEBUG_APPLICATIONS_HOST:-51.103.82.86}
+              REVDEBUG_MODE: crash
+              REVDEBUG_SOLUTION: ${REVDEBUG_SOLUTION:-Python_invoices}
+              InvoicesSenderAddress: http://sender.invoices:5300
+              REVDEBUG_RELEASE: ${REVDEBUG_RELEASE:-1a9431ec31989e09b058ab386cc5d799d481e75a}
+              REVDEBUG_APM: 1
+      ports:
+          - 6011:8083
