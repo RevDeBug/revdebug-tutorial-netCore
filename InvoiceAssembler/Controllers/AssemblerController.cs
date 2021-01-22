@@ -22,7 +22,16 @@ namespace InvoiceAssembler.Controllers
 
         public AssemblerController(northwindContext invoicesContext, IConfiguration configuration)
         {
-            apiBaseUrl = Environment.GetEnvironmentVariable("JAVA_INVOICE_ADDRESS");
+            var language = Environment.GetEnvironmentVariable("INVOICE_LANGUAGE");
+            if(language != null && language.ToLower() == "python")
+            {
+                apiBaseUrl = Environment.GetEnvironmentVariable("PYTHON_INVOICE_ADDRESS");
+            }
+            else
+            {
+                apiBaseUrl = Environment.GetEnvironmentVariable("JAVA_INVOICE_ADDRESS");
+            }
+
             if (string.IsNullOrEmpty(apiBaseUrl))
             {
                 apiBaseUrl = configuration.GetValue<string>("WebAPIBaseUrl");
