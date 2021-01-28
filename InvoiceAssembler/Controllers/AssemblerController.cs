@@ -37,7 +37,7 @@ namespace InvoiceAssembler.Controllers
                 apiBaseUrl = Environment.GetEnvironmentVariable("JAVA_INVOICE_ADDRESS");
             }
 
-            if (string.IsNullOrEmpty(apiBase
+            if (string.IsNullOrEmpty(apiBaseUrl))
             {
                 apiBaseUrl = configuration.GetValue<string>("WebAPIBaseUrl");
             }
