@@ -17,7 +17,8 @@ services:
     environment:
             ASPNETCORE_HOSTINGSTARTUPASSEMBLIES: RevDeBugAPM.Agent.AspNetCore
             JAVA_INVOICE_ADDRESS: http://processor.invoices:8082
-            PYTHON_INVOICE_ADDRESS: http://processor.invoices:8083
+            PYTHON_INVOICE_ADDRESS: http://python.invoices:8083
+            NODEJS_INVOICE_ADDRESS: http://nodejs.invoices:3000
             INVOICE_LANGUAGE: ${INVOICE_LANGUAGE:-nodejs}
     links:
         - "python:python.invoices"
@@ -52,7 +53,7 @@ services:
             SPRING.DATASOURCE.PASSWORD: masterkey
             InvoicesCoreAddress: http://demo-apps.revdebug.com:6012
             InvoicesSenderAddress: http://sender.invoices:5300
-            SW_AGENT_COLLECTOR_BACKEND_SERVICES: 51.103.82.86:11800
+            SW_AGENT_COLLECTOR_BACKEND_SERVICES: 127.0.0.1:11800
   python:
     build: ./InvoicePython
     links:
@@ -62,7 +63,7 @@ services:
             REVDEBUG_APPLICATIONS_HOST: ${REVDEBUG_APPLICATIONS_HOST:-51.103.82.86}
             REVDEBUG_MODE: crash
             REVDEBUG_SOLUTION: ${REVDEBUG_SOLUTION:-Python_invoices}
-            InvoicesSenderAddress: http://sender.invoices:5300
+            InvoicesSenderAddress: sender.invoices:5300
             REVDEBUG_RELEASE: ${REVDEBUG_RELEASE:-073a9b59c53abb734c7af4eab22135cc9b160559}
             REVDEBUG_APM: 1
     ports:
@@ -76,8 +77,8 @@ services:
             REVDEBUG_APPLICATIONS_HOST: ${REVDEBUG_APPLICATIONS_HOST:-51.103.82.86}
             REVDEBUG_MODE: crash
             REVDEBUG_SOLUTION: ${REVDEBUG_SOLUTION:-Nodejs_invoices}
-            InvoicesSenderAddress: http://sender.invoices:5300
-            REVDEBUG_RELEASE: ${REVDEBUG_RELEASE:-d28a43fefbaaae815cbe48abed5c4aa825d82f9d}
+            InvoicesSenderAddress: sender.invoices:5300
+            REVDEBUG_RELEASE: ${REVDEBUG_RELEASE:-483bdcbbd6fe3a98a31be09931aeba34cbfe5c24}
             REVDEBUG_APM: 1
     ports:
         - 6010:3000
