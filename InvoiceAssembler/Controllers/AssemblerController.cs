@@ -27,6 +27,11 @@ namespace InvoiceAssembler.Controllers
             {
                 apiBaseUrl = Environment.GetEnvironmentVariable("PYTHON_INVOICE_ADDRESS");
             }
+            else if(language != null && language.ToLower() == "nodejs")
+            {
+                apiBaseUrl = Environment.GetEnvironmentVariable("NODEJS_INVOICE_ADDRESS");
+
+            }
             else
             {
                 apiBaseUrl = Environment.GetEnvironmentVariable("JAVA_INVOICE_ADDRESS");
