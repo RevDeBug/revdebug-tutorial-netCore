@@ -23,6 +23,7 @@
     <RecorderAddress>$(RevDeBugRecordServerAddress)</RecorderAddress>
     <RecorderTCPPort>42734</RecorderTCPPort>
     <RevDeBugMetadataPath>$(RevDeBugCompilerPath)\Metadata</RevDeBugMetadataPath>
+    <ImportGitInfo>true</ImportGitInfo>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'">
     <isNetCore>true</isNetCore>

@@ -2,8 +2,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build-env
 WORKDIR /InvoicesCore
 
+RUN apt-get install -y git
+
 ARG REVDEBUG_RECORD_SERVER_ADDRESS_ARG=127.0.0.1
-ENV RdbReleaseName=7227ed69
 ENV REVDEBUG_RECORD_SERVER_ADDRESS=$REVDEBUG_RECORD_SERVER_ADDRESS_ARG
 
 COPY . ./
