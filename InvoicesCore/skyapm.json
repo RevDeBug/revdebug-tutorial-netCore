@@ -1,9 +1,9 @@
 {
   "SkyWalking": {
-    "ServiceName": "invoices_core",
+    "ServiceName": "InvoicesCore",
     "Namespace": "",
     "HeaderVersions": [
-      "sw6"
+      "sw8"
     ],
     "Sampling": {
       "SamplePer3Secs": -1,
@@ -15,11 +15,11 @@
     },
     "Transport": {
       "Interval": 3000,
-      "ProtocolVersion": "v3",
+      "ProtocolVersion": "v8",
       "QueueSize": 30000,
       "BatchSize": 3000,
       "gRPC": {
-        "Servers": "[REVDEBUG_SERVER]:[APM_PORT]",
+        "Servers": "$address:$port",
         "Timeout": 10000,
         "ConnectTimeout": 10000,
         "ReportTimeout": 600000
