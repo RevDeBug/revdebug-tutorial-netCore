@@ -3,6 +3,8 @@ The following application is an example spring boot application showing the trac
 A prerequisite for this follow along tutorial is a working RevDeBug Server instance running, please refer to user manual at: <https://revdebug.gitbook.io/revdebug/installing-revdebug-server#setting-up-revdebug-server-instance>
 ## Clone the project (Linux/MacOS X machine with Docker installed recommended)
 
+It is easier to start with the demo using in-memory database that't why it is recommended to use the ```inmemory_database``` branch:
+
 ```
 git clone --single-branch --branch feat/inmemory_database https://github.com/RevDeBug/revdebug-tutorial-netCore
 
