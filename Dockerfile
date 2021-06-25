@@ -5,7 +5,7 @@ WORKDIR /InvoicesCore
 ARG REVDEBUG_RECORD_SERVER_ADDRESS_ARG=127.0.0.1
 ENV REVDEBUG_RECORD_SERVER_ADDRESS=$REVDEBUG_RECORD_SERVER_ADDRESS_ARG
 
-RUN apt-get update && apt-get instal git
+RUN apt-get update && apt-get install git
 
 COPY . ./
 
