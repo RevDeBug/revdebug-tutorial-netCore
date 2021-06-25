@@ -2,15 +2,16 @@
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build-env
 WORKDIR /InvoicesCore
 
-RUN apt-get install -y git
-
 ARG REVDEBUG_RECORD_SERVER_ADDRESS_ARG=127.0.0.1
 ENV REVDEBUG_RECORD_SERVER_ADDRESS=$REVDEBUG_RECORD_SERVER_ADDRESS_ARG
 
+RUN apt-get update && apt-get instal git
+
 COPY . ./
-RUN dotnet nuget add source https://nexus.revdebug.com/repository/nuget --name rdb_nexus
-RUN dotnet restore
-RUN dotnet publish -c Release -o out
+
+RUN dotnet nuget add source https://nexus.revdebug.com/repository/nuget --name rdb_nexus \
+&& dotnet restore \
+&& dotnet publish -c Release -o out
 
 # Build runtime image
 FROM mcr.microsoft.com/dotnet/aspnet:3.1
