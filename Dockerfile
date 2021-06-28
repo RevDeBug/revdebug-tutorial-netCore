@@ -2,8 +2,8 @@
 FROM mcr.microsoft.com/dotnet/sdk:3.1 AS build-env
 WORKDIR /InvoicesCore
 
-ARG REVDEBUG_RECORD_SERVER_ADDRESS_ARG=127.0.0.1
-ENV REVDEBUG_RECORD_SERVER_ADDRESS=$REVDEBUG_RECORD_SERVER_ADDRESS_ARG
+ARG REVDEBUG_RECORD_SERVER_ADDRESS
+ENV REVDEBUG_RECORD_SERVER_ADDRESS={$REVDEBUG_RECORD_SERVER_ADDRESS:-127.0.0.1}
 
 RUN apt-get update && apt-get install -y git
 
@@ -17,6 +17,8 @@ RUN dotnet nuget add source https://nexus.revdebug.com/repository/nuget --name r
 FROM mcr.microsoft.com/dotnet/aspnet:3.1
 
 WORKDIR /InvoicesCore
-COPY --from=build-env /InvoicesCore/out .
+
 ENV ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=RevDeBugAPM.Agent.AspNetCore
+COPY --from=build-env /InvoicesCore/out .
+
 ENTRYPOINT ["dotnet", "InvoicesCore.dll"]
