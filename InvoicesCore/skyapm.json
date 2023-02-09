@@ -22,7 +22,8 @@
         "Servers": "$address:$port",
         "Timeout": 10000,
         "ConnectTimeout": 10000,
-        "ReportTimeout": 600000
+        "ReportTimeout": 600000,
+        "ForceTLS": $tlsActive
       }
     }
   }
