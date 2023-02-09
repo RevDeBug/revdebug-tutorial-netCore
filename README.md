@@ -1,31 +1,33 @@
 # RevDeBug recording of a ASP.NET Core application demo
-The following application is an example spring boot application showing the tracing and code execution recording of RevDeBug.
+The following application is an example ASP.NET Core application showing the tracing and code execution recording of RevDeBug.
 A prerequisite for this follow along tutorial is a working RevDeBug Server instance running, please refer to user manual at: <https://revdebug.gitbook.io/revdebug/installing-revdebug-server#setting-up-revdebug-server-instance>
 ## Clone the project (Linux/MacOS X machine with Docker installed recommended)
 
-It is easier to start with the demo using in-memory database that't why it is recommended to use the ```inmemory_database``` branch:
-
 ```
-git clone --single-branch --branch feat/inmemory_database https://github.com/RevDeBug/revdebug-tutorial-netCore
+git clone https://github.com/RevDeBug/revdebug-tutorial-netCore
 
 cd revdebug-tutorial-netCore
 ```
 
-## Build the application using the included Dockerfile
+## Build the application using the included Dockerfile (RevDeBug server without SSL)
 
 ```
 docker build --build-arg REVDEBUG_RECORD_SERVER_ADDRESS_ARG=[revdebug_server_address] -t rdb_core_demo .
 ```
 
+## If you are using RevDeBug server with SSL
+
+```
+docker build --build-arg REVDEBUG_RECORD_SERVER_ADDRESS_ARG=[revdebug_server_address] --build-arg REVDEBUG_TLS=true -t rdb_core_demo .
+```
+
 Where *[revdebug_server_address]* is your RevDeBug server address (IP address or just the hostname).
 
-## Run the built Docker image
+## Run the built Docker image 
 
 ```
 docker run -d -p 8090:80 --name rdb_core_demo rdb_core_demo:latest
 ```
-
-Where *[revdebug_server_address]* is your RevDeBug server address (IP address or just the hostname).
 
 ## Use the application to cause its error
 

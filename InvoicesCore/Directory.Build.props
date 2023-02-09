@@ -1,25 +1,80 @@
 <Project>
-    <PropertyGroup Condition="'$(RevDeBugDisableNuget)' != 'true'">
-        <RevDeBugActive>true</RevDeBugActive>
-        <UseRevDeBugOnThisProject>true</UseRevDeBugOnThisProject>
-        <RevDeBugStateStorageType>CrashRecorder</RevDeBugStateStorageType>
-        <SendToServer>true</SendToServer>
-        <RecorderAddress>[REVDEBUG_SERVER]</RecorderAddress>
-        <RecorderTCPPort>42734</RecorderTCPPort>
-        <RevDeBugMetadataPath>/rdb/Metadata</RevDeBugMetadataPath>
-        <ImportGitInfo>true</ImportGitInfo>
-    </PropertyGroup>
-    <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'">
-        <isNetCore>true</isNetCore>
-    </PropertyGroup>
-  <PropertyGroup>
-    <_RevDeBugSetupFileFixDependsOn>
-      GenerateRevDeBugSetupFile;
-    </_RevDeBugSetupFileFixDependsOn>
+  <PropertyGroup Condition="'$(REVDEBUG_recordServerAddress)' != ''">
+    <RevDeBugRecordServerAddress>$(REVDEBUG_recordServerAddress)</RevDeBugRecordServerAddress>
   </PropertyGroup>
-  <Target
-      Name="_RevDeBugSetupFileFix"
-      BeforeTargets="CopyRevDeBugFilesToOutputDirectory"
-      DependsOnTargets="$(_RevDeBugSetupFileFixDependsOn)"/>
+  <PropertyGroup Condition="'$(REVDEBUG_RECORD_SERVER_ADDRESS)' != ''">
+    <RevDeBugRecordServerAddress>$(REVDEBUG_RECORD_SERVER_ADDRESS)</RevDeBugRecordServerAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(REVDEBUG_TLS)' == 'true'">
+    <RevDeBugTLS>true</RevDeBugTLS>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(REVDEBUG_TLS)' != 'true'">
+    <RevDeBugTLS>false</RevDeBugTLS>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RevDeBugRecordServerAddress)' == '' ">
+    <RevDeBugRecordServerAddress>127.0.0.1</RevDeBugRecordServerAddress>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(REVDEBUG_APM_ENDPOINT)' != ''">
+    <RevDeBugApmEndpoint>$(REVDEBUG_APM_ENDPOINT)</RevDeBugApmEndpoint>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(RevDeBugApmEndpoint)' == ''">
+    <RevDeBugApmEndpoint>11800</RevDeBugApmEndpoint>
+  </PropertyGroup>
 
+  <PropertyGroup Condition="'$(RevDeBugDisableNuget)' != 'true'">
+    <RevDeBugActive>true</RevDeBugActive>
+    <UseRevDeBugOnThisProject>true</UseRevDeBugOnThisProject>
+    <RevDeBugStateStorageType>CrashRecorder</RevDeBugStateStorageType>
+    <SendToServer>true</SendToServer>
+    <RecorderAddress>$(RevDeBugRecordServerAddress)</RecorderAddress>
+    <RecorderTCPPort>42734</RecorderTCPPort>
+    <RevDeBugMetadataPath>$(RevDeBugCompilerPath)\Metadata</RevDeBugMetadataPath>
+    <ImportGitInfo>true</ImportGitInfo>
+    <RevDeBugForceTLS>$(RevDeBugTLS)</RevDeBugForceTLS>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'">
+    <isNetCore>true</isNetCore>
+  </PropertyGroup>
+  <Target Name="UpdateSkyAPM" AfterTargets="Publish">
+    <ReplaceFileText
+      InputFilename="$(PublishDir)\skyapm.json"
+      OutputFilename="$(PublishDir)\skyapm.json"
+      MatchExpression="\$address"
+      ReplacementText="$(RevDeBugRecordServerAddress)" />
+    <ReplaceFileText
+      InputFilename="$(PublishDir)\skyapm.json"
+      OutputFilename="$(PublishDir)\skyapm.json"
+      MatchExpression="\$port"
+      ReplacementText="$(RevDeBugApmEndpoint)" />
+    <ReplaceFileText
+      InputFilename="$(PublishDir)\skyapm.json"
+      OutputFilename="$(PublishDir)\skyapm.json"
+      MatchExpression="\$tlsActive"
+      ReplacementText="$(RevDeBugTLS)" />
+  </Target>
+
+  <UsingTask
+    TaskName="ReplaceFileText"
+    TaskFactory="RoslynCodeTaskFactory"
+    AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+    <ParameterGroup>
+      <InputFilename ParameterType="System.String" Required="true" />
+      <OutputFilename ParameterType="System.String" Required="true" />
+      <MatchExpression ParameterType="System.String" Required="true" />
+      <ReplacementText ParameterType="System.String" Required="true" />
+    </ParameterGroup>
+    <Task>
+      <Using Namespace="System"/>
+      <Using Namespace="System.IO"/>
+      <Using Namespace="System.Text.RegularExpressions" />
+      <Code Type="Fragment" Language="cs">
+        <![CDATA[  
+          File.WriteAllText(
+            OutputFilename,
+            Regex.Replace(File.ReadAllText(InputFilename), MatchExpression, ReplacementText)
+            );
+        ]]>
+      </Code>
+    </Task>
+  </UsingTask>
 </Project>
