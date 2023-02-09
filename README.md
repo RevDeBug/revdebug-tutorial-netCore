@@ -3,10 +3,8 @@ The following application is an example ASP.NET Core application showing the tra
 A prerequisite for this follow along tutorial is a working RevDeBug Server instance running, please refer to user manual at: <https://revdebug.gitbook.io/revdebug/installing-revdebug-server#setting-up-revdebug-server-instance>
 ## Clone the project (Linux/MacOS X machine with Docker installed recommended)
 
-It is easier to start with the demo using in-memory database that't why it is recommended to use the ```inmemory_database``` branch:
-
 ```
-git clone --single-branch --branch feat/inmemory_database https://github.com/RevDeBug/revdebug-tutorial-netCore
+git clone https://github.com/RevDeBug/revdebug-tutorial-netCore
 
 cd revdebug-tutorial-netCore
 ```
@@ -30,8 +28,6 @@ Where *[revdebug_server_address]* is your RevDeBug server address (IP address or
 ```
 docker run -d -p 8090:80 --name rdb_core_demo rdb_core_demo:latest
 ```
-
-Where *[revdebug_server_address]* is your RevDeBug server address (IP address or just the hostname).
 
 ## Use the application to cause its error
 
