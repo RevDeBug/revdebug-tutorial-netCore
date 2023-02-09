@@ -5,6 +5,12 @@
   <PropertyGroup Condition="'$(REVDEBUG_RECORD_SERVER_ADDRESS)' != ''">
     <RevDeBugRecordServerAddress>$(REVDEBUG_RECORD_SERVER_ADDRESS)</RevDeBugRecordServerAddress>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(REVDEBUG_TLS)' == 'true'">
+		<RevDeBugTLS>true</RevDeBugTLS>
+	</PropertyGroup>
+	<PropertyGroup Condition="'$(REVDEBUG_TLS)' != 'true'">
+		<RevDeBugTLS>false</RevDeBugTLS>
+	</PropertyGroup>
   <PropertyGroup Condition="'$(RevDeBugRecordServerAddress)' == '' ">
     <RevDeBugRecordServerAddress>127.0.0.1</RevDeBugRecordServerAddress>
   </PropertyGroup>
@@ -24,6 +30,7 @@
     <RecorderTCPPort>42734</RecorderTCPPort>
     <RevDeBugMetadataPath>$(RevDeBugCompilerPath)\Metadata</RevDeBugMetadataPath>
     <ImportGitInfo>true</ImportGitInfo>
+    <RevDeBugForceTLS>$(RevDeBugTLS)</RevDeBugForceTLS>
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFrameworkIdentifier)' != '.NETFramework'">
     <isNetCore>true</isNetCore>
@@ -39,6 +46,11 @@
       OutputFilename="$(PublishDir)\skyapm.json"
       MatchExpression="\$port"
       ReplacementText="$(RevDeBugApmEndpoint)" />
+    <ReplaceFileText
+		  InputFilename="$(PublishDir)\skyapm.json"
+		  OutputFilename="$(PublishDir)\skyapm.json"
+		  MatchExpression="\$tlsActive"
+		  ReplacementText="$(RevDeBugTLS)" />
   </Target>
 
   <UsingTask
