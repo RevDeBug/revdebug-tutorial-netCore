@@ -38,7 +38,7 @@ namespace InvoicesCore
 
             services.AddMvc();
 
-            services.AddDbContext<InvoicesContext>(options => options.UseNpgsql(connstring));
+            services.AddDbContext<InvoicesContext>(options => options.UseInMemoryDatabase("Invoices"));
 
         }
 
