@@ -47,7 +47,7 @@ It will result with an error - you may see a "blank" or an error 500 web page at
 # Use RevDeBug to access code execution recording
 
 ## Find the errorneous trace
-Next, you may switch to a RevDeBug server web interface and navigate to the “Trace” tab, where you may filter the traces to show only errors and limit to application “InvoiceJava”. 
+Next, you may switch to a RevDeBug server web interface and navigate to the “Trace” tab, where you may filter the traces to show only errors and limit to application “InvoicesCore”. 
 
 ![Demo application web page](./demo_screens_core/trace.png)
 
